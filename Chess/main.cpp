@@ -1,12 +1,22 @@
 #include <iostream>
 
 #include "src/Board.h"
+#include "src/Settings.h"
 
 Board board;
 
-
 int main() {
+  Settings settings;
 
   std::cout << "Hello, World!" << std::endl;
-  return 0;
+
+  settings.PrintSettings();
+
+  settings.ChangeSettings();
+
+  settings.PrintSettings();
+
+  // settings.ResetSettings();
+
+  // settings.PrintSettings();
 }

@@ -1,12 +1,11 @@
 #pragma once
-#include "Pos.h"
+
 #include "Piece.h"
+#include "Pos.h"
 
-struct Movement
-{
+struct Movement {
   Pos pos;
-  Piece& piece;
+  // Piece &piece;
 
-
-  Movement(Pos pos, Piece& piece) : pos(pos), piece(piece) {}
+  // Movement(Pos pos, Piece &piece) : pos(pos), piece(piece) {}
 };
