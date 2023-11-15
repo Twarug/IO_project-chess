@@ -1,6 +1,7 @@
 #pragma once
 #include "Pos.h"
-#include "Piece.h"
+
+class Piece;
 
 struct Movement
 {
