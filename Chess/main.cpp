@@ -1,12 +1,10 @@
+#include "src/Ranking.h";
 #include <iostream>
-
-#include "src/Board.h"
-
-Board board;
-
 
 int main() {
 
-  std::cout << "Hello, World!" << std::endl;
-  return 0;
+    Ranking *ranking = new Ranking("ranking.txt");
+
+    ranking->printManager();
+    return 0;
 }
