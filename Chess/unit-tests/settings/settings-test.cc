@@ -5,7 +5,10 @@ class SettingsTest : public ::testing::Test {
 protected:
   Settings *settings;
 
-  void SetUp() override { settings = new Settings(); }
+  void SetUp() override {
+    settings = new Settings();
+    settings->ResetSettings();
+  }
 
   void TearDown() override { delete settings; }
 };
