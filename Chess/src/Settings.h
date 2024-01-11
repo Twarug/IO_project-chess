@@ -1,4 +1,3 @@
-#pragma once
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -6,48 +5,47 @@
 std::string boardTextures[] = {"default", "wood", "marble", "stone", "metal"};
 std::string pieceTextures[] = {"default", "wood", "marble", "stone", "metal"};
 
-struct Settings {
-  std::string BoardTexture = "default";
-  std::string PieceTexture = "default";
+class Settings {
+public:
+  std::string BoardTexture;
+  std::string PieceTexture;
 
-  Settings() {
-    std::ifstream settingsFile("settings.txt");
-    if (settingsFile.is_open()) {
-      std::string line;
-      int lineNum = 0;
+  Settings(std::string boardTexture, std::string pieceTexture)
+      : BoardTexture(boardTexture), PieceTexture(pieceTexture) {}
 
-      while (getline(settingsFile, line)) {
-        switch (lineNum) {
-        case 0:
-          BoardTexture = line;
-          break;
-        case 1:
-          PieceTexture = line;
-          break;
-        default:
-          std::cout << "Invalid line in settings file\n";
-          break;
-        }
-        lineNum++;
-      }
-    }
-    settingsFile.close();
-  }
-
-  void PrintSettings() {
+  void PrintSettings() const {
     std::cout << "Board Texture: " << BoardTexture << "\n";
     std::cout << "Piece Texture: " << PieceTexture << "\n";
   }
+};
 
-  void SaveSettings() {
+class SettingsBuilder {
+private:
+  std::string boardTexture = "default";
+  std::string pieceTexture = "default";
+
+public:
+  SettingsBuilder &SetBoardTexture(const std::string &texture) {
+    boardTexture = texture;
+    return *this;
+  }
+
+  SettingsBuilder &SetPieceTexture(const std::string &texture) {
+    pieceTexture = texture;
+    return *this;
+  }
+
+#include <fstream> // Include the necessary header file
+
+  static void SaveSettings(const Settings &settings) {
     std::ofstream settingsFile("settings.txt");
     std::cout << "Saving settings...\n";
-    settingsFile << BoardTexture << "\n" << PieceTexture << "\n";
+    settingsFile << settings.BoardTexture << "\n"
+                 << settings.PieceTexture << "\n";
     settingsFile.close();
   }
 
-  void ChangeSettings() {
-
+  SettingsBuilder &ChangeSettings() {
     std::cout << "Change board texture:\n";
 
     for (int i = 0; i < 5; i++) {
@@ -57,25 +55,10 @@ struct Settings {
     int boardTextureChoice;
     std::cin >> boardTextureChoice;
 
-    switch (boardTextureChoice) {
-    case 1:
-      BoardTexture = boardTextures[0];
-      break;
-    case 2:
-      BoardTexture = boardTextures[1];
-      break;
-    case 3:
-      BoardTexture = boardTextures[2];
-      break;
-    case 4:
-      BoardTexture = boardTextures[3];
-      break;
-    case 5:
-      BoardTexture = boardTextures[4];
-      break;
-    default:
+    if (boardTextureChoice >= 1 && boardTextureChoice <= 5) {
+      boardTexture = boardTextures[boardTextureChoice - 1];
+    } else {
       std::cout << "Invalid choice\n";
-      break;
     }
 
     std::cout << "Change piece texture:\n";
@@ -87,34 +70,22 @@ struct Settings {
     int pieceTextureChoice;
     std::cin >> pieceTextureChoice;
 
-    switch (pieceTextureChoice) {
-    case 1:
-      PieceTexture = pieceTextures[0];
-      break;
-    case 2:
-      PieceTexture = pieceTextures[1];
-      break;
-    case 3:
-      PieceTexture = pieceTextures[2];
-      break;
-    case 4:
-      PieceTexture = pieceTextures[3];
-      break;
-    case 5:
-      PieceTexture = pieceTextures[4];
-      break;
-    default:
+    if (pieceTextureChoice >= 1 && pieceTextureChoice <= 5) {
+      pieceTexture = pieceTextures[pieceTextureChoice - 1];
+    } else {
       std::cout << "Invalid choice\n";
-      break;
     }
 
-    SaveSettings();
-
     std::cout << "Settings changed successfully\n";
+
+    return *this;
   }
 
-  void ResetSettings() {
-    BoardTexture = "default";
-    PieceTexture = "default";
+  SettingsBuilder &ResetSettings() {
+    boardTexture = "default";
+    pieceTexture = "default";
+    return *this;
   }
+
+  Settings Build() { return Settings(boardTexture, pieceTexture); }
 };
