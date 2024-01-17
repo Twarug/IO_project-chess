@@ -54,6 +54,27 @@
     "xlocbuf": "cpp",
     "xlocmes": "cpp",
     "xlocmon": "cpp",
-    "xloctime": "cpp"
+    "xloctime": "cpp",
+    "any": "cpp",
+    "chrono": "cpp",
+    "deque": "cpp",
+    "forward_list": "cpp",
+    "fstream": "cpp",
+    "functional": "cpp",
+    "iomanip": "cpp",
+    "list": "cpp",
+    "map": "cpp",
+    "mutex": "cpp",
+    "ratio": "cpp",
+    "set": "cpp",
+    "sstream": "cpp",
+    "stop_token": "cpp",
+    "string": "cpp",
+    "thread": "cpp",
+    "unordered_map": "cpp",
+    "unordered_set": "cpp",
+    "variant": "cpp",
+    "xhash": "cpp",
+    "xtree": "cpp"
   }
 }
