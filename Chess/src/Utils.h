@@ -1,5 +1,8 @@
 #pragma once
 
+#include "Pos.h"
+#include <xutility>
+
 template <typename T>
 struct reversion_wrapper { T& iterable; };
 
@@ -11,3 +14,6 @@ auto end(reversion_wrapper<T> w) { return std::rend(w.iterable); }
 
 template <typename T>
 reversion_wrapper<T> reverse (T&& iterable) { return { iterable }; }
+
+
+void ResetCuror(Pos pos);

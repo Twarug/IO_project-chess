@@ -9,7 +9,7 @@ struct Pos {
   Pos() : x(0), y(0) {}
   Pos(int x, int y) : x(x), y(y) {}
 
-  // auto operator<=>(const Pos &) const = default;
+  auto operator<=>(const Pos &) const = default;
 
   Pos operator+(const Pos &other) const {
     return Pos(x + other.x, y + other.y);

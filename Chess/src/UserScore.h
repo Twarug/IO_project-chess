@@ -5,13 +5,13 @@
 class UserScore {
 public:
     UserScore() : nickname(""), score(0) {}
-    UserScore(const std::string &nickname, int score) : nickname(nickname), score(score) {}
+    UserScore(const std::string &nickname, float score) : nickname(nickname), score(score) {}
 
     void setNickname(const std::string &nickname) {
         this->nickname = nickname;
     }
 
-    void setScore(int score) {
+    void setScore(float score) {
         this->score = score;
     }
 
@@ -19,11 +19,11 @@ public:
         return nickname;
     }
 
-    int getScore() const {
+    float getScore() const {
         return score;
     }
 
 private:
     std::string nickname;
-    int score;
+    float score;
 };

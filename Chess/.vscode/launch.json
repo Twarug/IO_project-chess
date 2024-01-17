@@ -2,16 +2,16 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "C/C++: cl.exe build and debug active file",
+      "name": "Launch Chess.exe",
       "type": "cppvsdbg",
       "request": "launch",
-      "program": "${workspaceFolder}\\bin\\Chess.exe",
+      "program": "${workspaceFolder}/bin/Chess.exe",
       "args": [],
       "stopAtEntry": false,
-      "cwd": "${workspaceFolder}\\run",
+      "cwd": "${workspaceFolder}",
       "console": "externalTerminal",
       "environment": [],
-      "preLaunchTask": "C/C++: cl.exe build active file"
+      "preLaunchTask": "Build Chess.exe"
     }
   ]
 }

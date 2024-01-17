@@ -20,8 +20,12 @@ public:
     virtual std::vector<Movement> GetMoves() = 0;
 
 public:
-    Pos GetPos() { return pos; }
+    Pos GetPos() const { return pos; }
+
     Color GetColor() { return color; }
+
+
+    friend class Board;
 };
 
 

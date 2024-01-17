@@ -10,6 +10,7 @@ public:
     Ranking(const std::string &filename);
 
     void addScore(const UserScore &score);
+    void addScore(const std::string &nickanme, const float score);
     int getScore(const std::string &nickname);
     void printManager();
 

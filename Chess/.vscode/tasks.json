@@ -2,14 +2,14 @@
   "tasks": [
     {
       "type": "cppbuild",
-      "label": "C/C++: cl.exe build active file",
+      "label": "Build Chess.exe",
       "command": "cl.exe",
       "args": [
         "/Zi",
         "/EHsc",
         "/nologo",
         "/std:c++20",
-        "/Fe${workspaceFolder}\\bin\\Chess.exe",
+        "/Fe${workspaceFolder}/bin/Chess.exe",
         "${workspaceFolder}/*.cpp",
         "${workspaceFolder}/src/*.cpp"
       ],

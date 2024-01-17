@@ -16,6 +16,7 @@ public:
     MovementsBuilder& SubmitMovement() {
         if (piece != nullptr && pos.x >= 0 && pos.x <= 7 && pos.y >=0 && pos.y <=7)
             moves.emplace_back(pos, *piece);
+        return *this;
     }
 
     std::vector<Movement> Build() { return moves; }
@@ -30,8 +31,12 @@ std::vector<Movement> Pawn::GetMoves() {
     MovementsBuilder moves;
     moves.SetPiece(*this);
     if (this->color == Color::WHITE) {
+        if (this->pos.y == 1)
+            moves.SetPos(this->pos.x, this->pos.y + 2).SubmitMovement();
         moves.SetPos(this->pos.x, this->pos.y + 1).SubmitMovement();
     } else {
+        if (this->pos.y == 6)
+            moves.SetPos(this->pos.x, this->pos.y - 2).SubmitMovement();
         moves.SetPos(this->pos.x, this->pos.y - 1).SubmitMovement();
     }
     return moves.Build();
@@ -46,10 +51,10 @@ std::vector<Movement> Rook::GetMoves() {
     moves.SetPiece(*this);
     for (int i = 0; i < 8; ++i) {
         if (i != pos.y)
-            moves.SetPos(i, this->pos.y);
+            moves.SetPos(i, this->pos.y).SubmitMovement();
         
         if (i != pos.x)
-            moves.SetPos(this->pos.x, i);
+            moves.SetPos(this->pos.x, i).SubmitMovement();
     }
     return moves.Build();
 }
@@ -61,14 +66,14 @@ void Knight::draw() {
 std::vector<Movement> Knight::GetMoves() {
     MovementsBuilder moves;
     moves.SetPiece(*this);
-    moves.SetPos(this->pos.x + 2, this->pos.y + 1);
-    moves.SetPos(this->pos.x + 2, this->pos.y - 1);
-    moves.SetPos(this->pos.x - 2, this->pos.y + 1);
-    moves.SetPos(this->pos.x - 2, this->pos.y - 1);
-    moves.SetPos(this->pos.x + 1, this->pos.y + 2);
-    moves.SetPos(this->pos.x + 1, this->pos.y - 2);
-    moves.SetPos(this->pos.x - 1, this->pos.y + 2);
-    moves.SetPos(this->pos.x - 1, this->pos.y - 2);
+    moves.SetPos(this->pos.x + 2, this->pos.y + 1).SubmitMovement();
+    moves.SetPos(this->pos.x + 2, this->pos.y - 1).SubmitMovement();
+    moves.SetPos(this->pos.x - 2, this->pos.y + 1).SubmitMovement();
+    moves.SetPos(this->pos.x - 2, this->pos.y - 1).SubmitMovement();
+    moves.SetPos(this->pos.x + 1, this->pos.y + 2).SubmitMovement();
+    moves.SetPos(this->pos.x + 1, this->pos.y - 2).SubmitMovement();
+    moves.SetPos(this->pos.x - 1, this->pos.y + 2).SubmitMovement();
+    moves.SetPos(this->pos.x - 1, this->pos.y - 2).SubmitMovement();
     return moves.Build();
 }
 
@@ -80,10 +85,10 @@ std::vector<Movement> Bishop::GetMoves() {
     MovementsBuilder moves;
     moves.SetPiece(*this);
     for (int i = 1; i < 8; ++i) {
-        moves.SetPos(pos + Pos(i, i));
-        moves.SetPos(pos + Pos(i, -i));
-        moves.SetPos(pos + Pos(-i, i));
-        moves.SetPos(pos + Pos(-i, -i));
+        moves.SetPos(pos + Pos(i, i)).SubmitMovement();
+        moves.SetPos(pos + Pos(i, -i)).SubmitMovement();
+        moves.SetPos(pos + Pos(-i, i)).SubmitMovement();
+        moves.SetPos(pos + Pos(-i, -i)).SubmitMovement();
     }
     return moves.Build();
 }

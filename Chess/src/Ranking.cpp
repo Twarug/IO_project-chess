@@ -13,6 +13,12 @@ void Ranking::addScore(const UserScore &score) {
     saveScoresToFile(scoreList, sourceFile);
 }
 
+void Ranking::addScore(const std::string &nickanme, const float score){
+    UserScore usc = UserScore(nickanme, score);
+    scoreList.push_back(usc);
+    saveScoresToFile(scoreList, sourceFile);
+}
+
 int Ranking::getScore(const std::string &nickname) {
     for (const auto &score : scoreList) {
         if (score.getNickname() == nickname) {

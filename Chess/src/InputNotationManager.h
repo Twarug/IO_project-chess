@@ -1,6 +1,9 @@
 
 #pragma once
 #include "Notation.h"
+#include "Board.h"
+#include "Piece.h"
+#include "Pos.h"
 #include <iostream>
 #include <vector>
 
@@ -28,7 +31,10 @@ public:
             return "Knight";
         case PieceType::PAWN:
             return "Pawn";
+        default:
+            return "Unknown";
         }
+        return "Unknown";
     }
 
     std::string getColorName(Color color) {
@@ -37,7 +43,10 @@ public:
             return "White";
         case Color::BLACK:
             return "Black";
+        default:
+            return "Unknown";
         }
+        return "Unknown";
     }
 
     void inputNotationAndType() {
@@ -97,7 +106,7 @@ public:
         }
     }
 
-    bool InputManager() {
+    Board InputManager() {
         bool play = false;
 
         while (true && notations.size() < TOTAL_PIECES) {
@@ -121,7 +130,34 @@ public:
             }
         }
 
-        return play;
+        Board::BoardArray boardArray;
+
+        for (const auto &notation : notations) {
+            switch(notation.getPieceType()){
+                case PieceType::KING:
+                    boardArray[notation.getX()][notation.getY()] = new King(Pos(notation.getX(), notation.getY()), notation.getColor());
+                    break;
+                case PieceType::QUEEN:
+                    boardArray[notation.getX()][notation.getY()] = new Queen(Pos(notation.getX(), notation.getY()), notation.getColor());
+                    break;
+                case PieceType::ROOK:
+                    boardArray[notation.getX()][notation.getY()] = new Rook(Pos(notation.getX(), notation.getY()), notation.getColor());
+                    break;
+                case PieceType::BISHOP:
+                    boardArray[notation.getX()][notation.getY()] = new Bishop(Pos(notation.getX(), notation.getY()), notation.getColor());
+                    break;
+                case PieceType::KNIGHT:
+                    boardArray[notation.getX()][notation.getY()] = new Knight(Pos(notation.getX(), notation.getY()), notation.getColor());
+                    break;
+                case PieceType::PAWN:
+                    boardArray[notation.getX()][notation.getY()] = new Pawn(Pos(notation.getX(), notation.getY()), notation.getColor());
+                    break;
+            }
+        }
+
+        Board gameBoard(boardArray);
+
+        return gameBoard;
     }
 
 private:
