@@ -19,4 +19,9 @@ int main() {
   // settings.ResetSettings();
 
   // settings.PrintSettings();
+  board.display();
+
+  // std::cin.get();
+
+  return 0;
 }
