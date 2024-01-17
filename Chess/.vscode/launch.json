@@ -5,12 +5,12 @@
       "name": "C/C++: cl.exe build and debug active file",
       "type": "cppvsdbg",
       "request": "launch",
-      "program": "${fileDirname}\\bin\\Chess.exe",
+      "program": "${workspaceFolder}\\bin\\Chess.exe",
       "args": [],
       "stopAtEntry": false,
-      "cwd": "${workspaceFolder}",
+      "cwd": "${workspaceFolder}\\run",
+      "console": "externalTerminal",
       "environment": [],
-      "externalConsole": false,
       "preLaunchTask": "C/C++: cl.exe build active file"
     }
   ]

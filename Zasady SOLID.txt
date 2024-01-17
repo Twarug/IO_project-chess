@@ -1,0 +1,58 @@
+Zasady SOLID:
+- Single Responsibility Principle (Zasada pojedynczej odpowiedzialności):
+
+U nas każda klasa jest odpowiedzialna za jedną rzecz, skutkiem tego jest duża ilość klas. Przykład to pojdyńcza klasa dla każdego rodzaju pionka
+
+- Open/Closed Principle (Zasada otwarte/zaamknięte):
+
+Po części jest zastosowane, po części nie. Z powodu wstępnej fazy projektu część funkcji jest przygotowana pod jedynie rozbudowe, jednak część będzie miała wymuszoną zmianę działania, żeby działało tak jak powinno.
+
+- Liskov Substitution Principle (Zasada podstawienia Liskov):
+
+Tak, klasy pochodzne od Pieces mają tylko i wyłącznie metody zawarte w interfejsie bazowym.
+
+- Interface Segregation Principle (Zasada segregacji interfejsów):
+
+Zastosowano. Nasze klasy nie wymagają implementacji niepotrzebnych interfejsów. Obecnie pionki implementują interfejs bazowy poinka, który obecnie jest prostym interfejsem, a wszystkie metody będą potrzebne dla każdego rodzaju pionka.
+
+- Dependency Inversion Principle (Zasada odwrócenia zależności):
+
+Jest zastosowane. Jedyne klasy, które dziedziczą to dziedziczenie po interfejsie.
+
+
+Zasady GRASP:
+- Information Expert (Ekspert):
+
+Nie jest zastosowane. Obecnie są 3 główne klasy, gdzie każda posiada informacje potrzbene do działania osobnych modułów. Można by dodać klasę Game, która zawierałaby te 3 klasy i wtedy ta zasada byłaby zastosowana.
+
+- Creator (Twórca):
+
+Zasada zastosowana. Jedne klasy tworzą instancje innych klas jeśli posiadają informacje. 
+
+- Controller (Kontroler):
+
+Nie jest zastosowane. Nie mamy głównego kontrolera, wszytsko jest implementowane w funckji main. Do zastosowania tej zasady można by dodać klasę Game, która byłaby takim kontrolerem.
+
+- Low Coupling (Niskie Sprzężenie):
+
+Zastosowane. Ilość agregacji jest jak najmniejsza dla większej czytelności kodu.
+
+- High Cohesion (Wysoka Spójność):
+
+Zastosowane. Każda klasa ma swoje metody, które odpowiadają za jedno zadanie.
+
+- Polymorphism (Polimorfizm):
+
+Zastosowane. Każda figura ma funkcję od poruszania, ale każda figura ma ją inaczej zaimplementowaną z powodu innych zasad poruszania dla danego rodzjau figury.
+
+- Pure Fabrication (Czysty Wymysł):
+
+Obecnie tego nie ma, ale prawdopodbnie zostanie zastooswany w przypadku dodawanie implementacji AI i systemu grającego z graczem.
+
+- Indirection (Pośrednictwo):
+
+Nie zastosowano. Nie widzimy potrzeby implementacji komponentu pośredniczącego, gdyż cała komunikacja pośrednia jest wystarczająca i mało obciązająca.
+
+- Protected Variations (Ochrona Zmienności):
+
+Zasada zastosowana. W interfejsie Piece jest funkcja to nadpisania, dzięki czemu zmiana działania metody jest przewidziana i chciana.
