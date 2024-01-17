@@ -7,6 +7,9 @@ Board board;
 
 int main() {
 
-  std::cout << "Hello, World!" << std::endl;
+  board.display();
+
+  // std::cin.get();
+
   return 0;
 }
