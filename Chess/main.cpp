@@ -1,27 +1,26 @@
-#include <iostream>
-
+#include "src/InputNotationManager.h";
+#include "src/Ranking.h";
 #include "src/Board.h"
 #include "src/Settings.h"
 
-Board board;
+#include <iostream>
 
 int main() {
+  Ranking *ranking = new Ranking("ranking.txt");
+
   Settings settings;
-
-  std::cout << "Hello, World!" << std::endl;
-
   settings.PrintSettings();
-
   settings.ChangeSettings();
-
   settings.PrintSettings();
 
-  // settings.ResetSettings();
+  InputNotationManager *inputNotationManager = new InputNotationManager();
+  // ranking->printManager();
+  bool startGame = inputNotationManager->InputManager();
 
-  // settings.PrintSettings();
+  if (startGame == true)
+    std::cout << "Game starts" << std::endl;
+
   board.display();
-
-  // std::cin.get();
 
   return 0;
 }
