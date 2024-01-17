@@ -46,10 +46,10 @@ std::vector<Movement> Rook::GetMoves() {
     moves.SetPiece(*this);
     for (int i = 0; i < 8; ++i) {
         if (i != pos.y)
-            moves.SetPos(i, this->pos.y), *this);
+            moves.SetPos(i, this->pos.y);
         
         if (i != pos.x)
-            EmplaceMovement(moves, Pos(this->pos.x, i), *this);
+            moves.SetPos(this->pos.x, i);
     }
     return moves.Build();
 }
@@ -61,14 +61,14 @@ void Knight::draw() {
 std::vector<Movement> Knight::GetMoves() {
     MovementsBuilder moves;
     moves.SetPiece(*this);
-    EmplaceMovement(moves, Pos(this->pos.x + 2, this->pos.y + 1), *this);
-    EmplaceMovement(moves, Pos(this->pos.x + 2, this->pos.y - 1), *this);
-    EmplaceMovement(moves, Pos(this->pos.x - 2, this->pos.y + 1), *this);
-    EmplaceMovement(moves, Pos(this->pos.x - 2, this->pos.y - 1), *this);
-    EmplaceMovement(moves, Pos(this->pos.x + 1, this->pos.y + 2), *this);
-    EmplaceMovement(moves, Pos(this->pos.x + 1, this->pos.y - 2), *this);
-    EmplaceMovement(moves, Pos(this->pos.x - 1, this->pos.y + 2), *this);
-    EmplaceMovement(moves, Pos(this->pos.x - 1, this->pos.y - 2), *this);
+    moves.SetPos(this->pos.x + 2, this->pos.y + 1);
+    moves.SetPos(this->pos.x + 2, this->pos.y - 1);
+    moves.SetPos(this->pos.x - 2, this->pos.y + 1);
+    moves.SetPos(this->pos.x - 2, this->pos.y - 1);
+    moves.SetPos(this->pos.x + 1, this->pos.y + 2);
+    moves.SetPos(this->pos.x + 1, this->pos.y - 2);
+    moves.SetPos(this->pos.x - 1, this->pos.y + 2);
+    moves.SetPos(this->pos.x - 1, this->pos.y - 2);
     return moves.Build();
 }
 
@@ -80,10 +80,10 @@ std::vector<Movement> Bishop::GetMoves() {
     MovementsBuilder moves;
     moves.SetPiece(*this);
     for (int i = 1; i < 8; ++i) {
-        EmplaceMovement(moves, pos + Pos(i, i), *this);
-        EmplaceMovement(moves, pos + Pos(i, -i), *this);
-        EmplaceMovement(moves, pos + Pos(-i, i), *this);
-        EmplaceMovement(moves, pos + Pos(-i, -i), *this);
+        moves.SetPos(pos + Pos(i, i));
+        moves.SetPos(pos + Pos(i, -i));
+        moves.SetPos(pos + Pos(-i, i));
+        moves.SetPos(pos + Pos(-i, -i));
     }
     return moves.Build();
 }
