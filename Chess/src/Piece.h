@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Color.h"
-#include "Pos.h"
 #include "Movement.h"
+#include "Pos.h"
 
 #include <vector>
 
@@ -40,7 +40,6 @@ public:
     void draw() override;
     std::vector<Movement> GetMoves() override;
 };
-
 
 class Knight : public Piece {
 public:
