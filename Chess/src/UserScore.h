@@ -4,6 +4,7 @@
 
 class UserScore {
 public:
+    UserScore() : nickname(""), score(0) {}
     UserScore(const std::string &nickname, int score) : nickname(nickname), score(score) {}
 
     void setNickname(const std::string &nickname) {

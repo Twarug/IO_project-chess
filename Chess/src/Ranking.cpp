@@ -85,7 +85,10 @@ std::vector<UserScore> Ranking::loadScoresFromFile(const std::string &filename) 
         std::string name;
         int score;
         while (file >> name >> score) {
-            scores.emplace_back(name, score);
+            UserScore *uScore = new UserScore();
+            uScore->setNickname(name);
+            uScore->setScore(score);
+            scores.emplace_back(*uScore);
         }
         file.close();
     }
