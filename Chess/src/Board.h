@@ -93,4 +93,6 @@ class Board {
 
 public:
   void display();
+
+  Piece* getPiece(Pos pos);
 };

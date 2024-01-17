@@ -18,6 +18,10 @@ public:
     virtual void draw() = 0;
 
     virtual std::vector<Movement> GetMoves() = 0;
+
+public:
+    Pos GetPos() { return pos; }
+    Color GetColor() { return color; }
 };
 
 

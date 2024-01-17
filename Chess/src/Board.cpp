@@ -43,3 +43,10 @@ void Board::display() {
 
     std::cout << std::endl;
 }
+
+Piece* Board::getPiece(Pos pos) {
+    if (pos.x < 0 || pos.x > 7 || pos.y < 0 || pos.y > 7)
+        return nullptr;
+
+    return board[pos.y][pos.x];
+}

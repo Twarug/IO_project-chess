@@ -2,24 +2,39 @@
 
 #include <iostream>
 
-void EmplaceMovement(std::vector<Movement>& moves, Pos pos, Piece& piece) {
-    if (pos.x >= 0 && pos.x < 8 && pos.y >= 0 && pos.y < 8) {
-        moves.emplace_back(pos, piece);
+class MovementsBuilder {
+    std::vector<Movement> moves;
+
+    Pos pos;
+    Piece* piece;
+public:
+    MovementsBuilder& SetPos(Pos pos) { this->pos = pos; return *this; }
+    MovementsBuilder& SetPos(int x, int y) { this->pos = {x, y}; return *this; }
+    
+    MovementsBuilder& SetPiece(Piece& piece) { this->piece = &piece; return *this; }
+
+    MovementsBuilder& SubmitMovement() {
+        if (piece != nullptr && pos.x >= 0 && pos.x <= 7 && pos.y >=0 && pos.y <=7)
+            moves.emplace_back(pos, *piece);
     }
-}
+
+    std::vector<Movement> Build() { return moves; }
+};
+
 
 void Pawn::draw() {
     std::cout << "P";
 }
 
 std::vector<Movement> Pawn::GetMoves() {
-    std::vector<Movement> moves;
+    MovementsBuilder moves;
+    moves.SetPiece(*this);
     if (this->color == Color::WHITE) {
-        EmplaceMovement(moves, Pos(this->pos.x, this->pos.y + 1), *this);
+        moves.SetPos(this->pos.x, this->pos.y + 1).SubmitMovement();
     } else {
-        EmplaceMovement(moves, Pos(this->pos.x, this->pos.y - 1), *this);
+        moves.SetPos(this->pos.x, this->pos.y - 1).SubmitMovement();
     }
-    return moves;
+    return moves.Build();
 }
 
 void Rook::draw() {
@@ -27,15 +42,16 @@ void Rook::draw() {
 }
 
 std::vector<Movement> Rook::GetMoves() {
-    std::vector<Movement> moves;
+    MovementsBuilder moves;
+    moves.SetPiece(*this);
     for (int i = 0; i < 8; ++i) {
         if (i != pos.y)
-            EmplaceMovement(moves, Pos(i, this->pos.y), *this);
+            moves.SetPos(i, this->pos.y), *this);
         
         if (i != pos.x)
             EmplaceMovement(moves, Pos(this->pos.x, i), *this);
     }
-    return moves;
+    return moves.Build();
 }
 
 void Knight::draw() {
@@ -43,7 +59,8 @@ void Knight::draw() {
 }
 
 std::vector<Movement> Knight::GetMoves() {
-    std::vector<Movement> moves;
+    MovementsBuilder moves;
+    moves.SetPiece(*this);
     EmplaceMovement(moves, Pos(this->pos.x + 2, this->pos.y + 1), *this);
     EmplaceMovement(moves, Pos(this->pos.x + 2, this->pos.y - 1), *this);
     EmplaceMovement(moves, Pos(this->pos.x - 2, this->pos.y + 1), *this);
@@ -52,7 +69,7 @@ std::vector<Movement> Knight::GetMoves() {
     EmplaceMovement(moves, Pos(this->pos.x + 1, this->pos.y - 2), *this);
     EmplaceMovement(moves, Pos(this->pos.x - 1, this->pos.y + 2), *this);
     EmplaceMovement(moves, Pos(this->pos.x - 1, this->pos.y - 2), *this);
-    return moves;
+    return moves.Build();
 }
 
 void Bishop::draw() {
@@ -60,14 +77,15 @@ void Bishop::draw() {
 }
 
 std::vector<Movement> Bishop::GetMoves() {
-    std::vector<Movement> moves;
+    MovementsBuilder moves;
+    moves.SetPiece(*this);
     for (int i = 1; i < 8; ++i) {
         EmplaceMovement(moves, pos + Pos(i, i), *this);
         EmplaceMovement(moves, pos + Pos(i, -i), *this);
         EmplaceMovement(moves, pos + Pos(-i, i), *this);
         EmplaceMovement(moves, pos + Pos(-i, -i), *this);
     }
-    return moves;
+    return moves.Build();
 }
 
 void Queen::draw() {
@@ -75,20 +93,21 @@ void Queen::draw() {
 }
 
 std::vector<Movement> Queen::GetMoves() {
-    std::vector<Movement> moves;
+    MovementsBuilder moves;
+    moves.SetPiece(*this);
     for (int i = 0; i < 8; ++i) {
         if (i != pos.y)
-            EmplaceMovement(moves, Pos(i, this->pos.y), *this);
+            moves.SetPos(i, this->pos.y).SubmitMovement();
         
         if (i != pos.x)
-            EmplaceMovement(moves, Pos(this->pos.x, i), *this);
+            moves.SetPos(this->pos.x, i).SubmitMovement();
         
         if (i != pos.x && i != pos.y) {
-            EmplaceMovement(moves, Pos(i, i), *this);
-            EmplaceMovement(moves, Pos(i, 7 - i), *this);
+            moves.SetPos(i, i).SubmitMovement();
+            moves.SetPos(i, 7 - i).SubmitMovement();
         }
     }
-    return moves;
+    return moves.Build();
 }
 
 void King::draw() {
@@ -96,14 +115,16 @@ void King::draw() {
 }
 
 std::vector<Movement> King::GetMoves() {
-    std::vector<Movement> moves;
-    EmplaceMovement(moves, Pos(this->pos.x + 1, this->pos.y + 1), *this);
-    EmplaceMovement(moves, Pos(this->pos.x + 1, this->pos.y - 1), *this);
-    EmplaceMovement(moves, Pos(this->pos.x - 1, this->pos.y + 1), *this);
-    EmplaceMovement(moves, Pos(this->pos.x - 1, this->pos.y - 1), *this);
-    EmplaceMovement(moves, Pos(this->pos.x + 1, this->pos.y), *this);
-    EmplaceMovement(moves, Pos(this->pos.x - 1, this->pos.y), *this);
-    EmplaceMovement(moves, Pos(this->pos.x, this->pos.y + 1), *this);
-    EmplaceMovement(moves, Pos(this->pos.x, this->pos.y - 1), *this);
-    return moves;
+    MovementsBuilder moves;
+    moves.SetPiece(*this);
+    
+    moves.SetPos(this->pos.x + 1, this->pos.y + 1).SubmitMovement();
+    moves.SetPos(this->pos.x + 1, this->pos.y - 1).SubmitMovement();
+    moves.SetPos(this->pos.x - 1, this->pos.y + 1).SubmitMovement();
+    moves.SetPos(this->pos.x - 1, this->pos.y - 1).SubmitMovement();
+    moves.SetPos(this->pos.x + 1, this->pos.y).SubmitMovement();
+    moves.SetPos(this->pos.x - 1, this->pos.y).SubmitMovement();
+    moves.SetPos(this->pos.x, this->pos.y + 1).SubmitMovement();
+    moves.SetPos(this->pos.x, this->pos.y - 1).SubmitMovement();
+    return moves.Build();
 }
