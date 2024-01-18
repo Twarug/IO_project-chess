@@ -1,2 +1,2 @@
-marble
-stone
+default
+default

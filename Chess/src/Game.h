@@ -16,8 +16,9 @@ public:
 
   Board m_board;
 
+  Result m_result = Result::ERR;
 public:
-  Game(Board board) : m_board(std::move(board)) {}
+  Game(Board board) : m_board(board) {}
 
   Result Run();
 

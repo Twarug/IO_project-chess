@@ -35,7 +35,7 @@ void Ranking::printManager() {
         std::string input;
         std::cout << "\n\n1) Wypisz \n";
         std::cout << "2) Znajdz \n";
-        std::cout << "3) Wyjdz \n";
+        std::cout << "q) Wyjdz \n";
         std::cout << "!!!Dla testow!!!\n4) Dodaj \n";
         std::cout << "Wybierz: ";
         std::getline(std::cin, input);
@@ -56,7 +56,7 @@ void Ranking::printManager() {
             } else {
                 std::cout << score << "\n";
             }
-        } else if (input == "3") {
+        } else if (input == "q") {
             break;
         } else if (input == "4") {
             std::string nickname;

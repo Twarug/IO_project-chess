@@ -15,7 +15,7 @@ private:
   Piece* selected = nullptr;
 
 public:
-  Board(BoardArray board) : board(std::move(board)) {}
+  Board(BoardArray board) : board(board) {}
 
   void display();
 

@@ -1,5 +1,5 @@
-#include "src/InputNotationManager.h";
-#include "src/Ranking.h";
+#include "src/InputNotationManager.h"
+#include "src/Ranking.h"
 #include "src/Settings.h"
 #include "src/Game.h"
 
@@ -13,7 +13,7 @@ Settings settings;
 
 Game* game;
 
-void HandleGameResule(Game::Result result);
+void HandleGameResult(Game::Result result);
 
 int main() {
   std::string input;
@@ -36,24 +36,25 @@ int main() {
         std::cout << "Rozpocznij gre" << std::endl;
         game = new Game(Board::CreateDefaultBoard());
         Game::Result res = game->Run();
-        HandleGameResule(res);
+        HandleGameResult(res);
         delete game;
 
         break;
       }
       case '2': {
         std::cout << "Wprowadzanie notacji" << std::endl;
-        Board gameBoard = inputNotationManager.InputManager();
-        
-        game = new Game(Board::CreateDefaultBoard());
+        Board board = inputNotationManager.InputManager();
+        board.display();
+        std::system("PAUSE");
+        game = new Game(board);
         Game::Result res = game->Run();
-        HandleGameResule(res);
+        HandleGameResult(res);
         delete game;
         break;
       }
       case '3': {
-        std::cout << "Ustawienia" << std::endl;
-        settings.PrintSettings();
+        std::cout << "Ustawienia\n";
+        settings.DisplaySettingsMenu();
         break;
       }
       case '4': { 
@@ -73,7 +74,10 @@ int main() {
 }
 
 
-void HandleGameResule(Game::Result result) {
+void HandleGameResult(Game::Result result) {
+
+  std::cout << "Wynik gry: " << (unsigned)result << '\n';
+
   std::cout << "Podaj nick: ";
   std::string nick;
   std::cin >> nick;
@@ -92,4 +96,6 @@ void HandleGameResule(Game::Result result) {
   default:
     break;
   }
+
+  std::system("PAUSE");
 }

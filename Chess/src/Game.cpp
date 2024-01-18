@@ -18,6 +18,8 @@ Game::Result Game::Run() {
   } catch(...) {
     return Result::ERR;
   }
+
+  return m_result;
 }
 
 void Game::Init() {
@@ -55,7 +57,13 @@ void Game::Update() {
     std::string input;
     std::cin >> input;
 
-    if (input == "q") {
+    if (!selected && input.length() > 3 && input == std::string(input.length(), 'q')) {
+      m_isRunning = false;
+      m_result = Result::LOSE;
+      break;
+    }
+
+    if (input[0] == 'q') {
       m_board.unselectPiece();
       break;
     }
@@ -67,12 +75,12 @@ void Game::Update() {
 
     if (selected != nullptr) {
       // Ruch
-      Pos pos = Pos(input[0] - 'A', input[1] - '1');
+      Pos pos = Pos(input[0] < 'Z' ? input[0] - 'A' : input[0] - 'a', input[1] - '1');
       if (m_board.movePiece(pos))
         break;
     } else {
       // Wybor pionka
-      Pos pos = Pos(input[0] - 'A', input[1] - '1');
+      Pos pos = Pos(input[0] < 'Z' ? input[0] - 'A' : input[0] - 'a', input[1] - '1');
       if(m_board.selectPiece(pos))
         break;
     }
@@ -84,7 +92,9 @@ void Game::Render() {
 }
 
 void Game::Cleanup() {
-  std::cout << "Game::Cleanup()" << std::endl;
+  ResetCuror({0, 20});
+  std::system("PAUSE");
+  std::system("cls");
 }
 
 

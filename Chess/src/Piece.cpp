@@ -50,10 +50,10 @@ std::vector<Movement> Rook::GetMoves() {
     MovementsBuilder moves;
     moves.SetPiece(*this);
     for (int i = 0; i < 8; ++i) {
-        if (i != pos.y)
+        if (i != pos.x)
             moves.SetPos(i, this->pos.y).SubmitMovement();
         
-        if (i != pos.x)
+        if (i != pos.y)
             moves.SetPos(this->pos.x, i).SubmitMovement();
     }
     return moves.Build();
@@ -101,16 +101,19 @@ std::vector<Movement> Queen::GetMoves() {
     MovementsBuilder moves;
     moves.SetPiece(*this);
     for (int i = 0; i < 8; ++i) {
-        if (i != pos.y)
-            moves.SetPos(i, this->pos.y).SubmitMovement();
         
         if (i != pos.x)
-            moves.SetPos(this->pos.x, i).SubmitMovement();
+            moves.SetPos(i, this->pos.y).SubmitMovement();
         
-        if (i != pos.x && i != pos.y) {
-            moves.SetPos(i, i).SubmitMovement();
-            moves.SetPos(i, 7 - i).SubmitMovement();
-        }
+        if (i != pos.y)
+            moves.SetPos(this->pos.x, i).SubmitMovement();
+
+        if (i == 0) continue;
+
+        moves.SetPos(pos + Pos( i,  i)).SubmitMovement();
+        moves.SetPos(pos + Pos( i, -i)).SubmitMovement();
+        moves.SetPos(pos + Pos(-i, -i)).SubmitMovement();
+        moves.SetPos(pos + Pos(-i,  i)).SubmitMovement();
     }
     return moves.Build();
 }

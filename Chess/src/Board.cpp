@@ -6,6 +6,15 @@
 #include <algorithm>
 #include <vector>
 
+struct CanMoveChecker {
+  Pos pos;
+  Piece* piece;
+
+  bool operator()(const Movement& m) {
+    return m.pos == pos && (!piece || m.piece.GetColor() != piece->GetColor()); 
+  }
+};
+
 void Board::display() {
     std::vector<Movement> movements = selected ? selected->GetMoves() : std::vector<Movement>();
 
@@ -15,19 +24,37 @@ void Board::display() {
         for (auto piece : row) {
             Pos pos{x, 7 - y};
 
+            bool marked = false;
+
             // Check if current pos has a possible movement of selected piece
-            if (std::find_if(movements.begin(), movements.end(), [pos](const Movement& m){
-                return m.pos == pos; 
-            }) != movements.end())
+            if (std::find_if(movements.begin(), movements.end(), CanMoveChecker{pos, piece}) != movements.end()) {
                 std::cout << "\033[44;1m";
+                marked = true;
+            }
+
+            if (piece) {
+                if (piece->color == Color::WHITE)
+                    std::cout << "\033[47;30m";
+                else
+                    std::cout << "\033[40;37m";
+
+                if (marked)
+                    std::cout << "\033[44m";
+            }
 
             // Hihglight sleected piece
-            if (piece == selected)
-                std::cout << "\033[41;1m";
+            if (selected && piece == selected) {
+                std::cout << "\033[41";
+                if (piece->color == Color::WHITE)
+                    std::cout << ";37m";
+                else
+                    std::cout << ";30m";
+            }
+
 
             // Draw piece
             if (piece == nullptr)
-                std::cout << ".";
+                std::cout << " ";
             else
                 piece->draw();
             
@@ -64,15 +91,14 @@ bool Board::movePiece(Pos pos)
     if (selected == nullptr)
         return false;
     
-    std::vector<Movement> movements = selected->GetMoves();
-    if (std::find_if(movements.begin(), movements.end(), [pos](const Movement& m){ return m.pos == pos; }) == movements.end())
-        return false;
-    
     Piece* piece = getPiece(pos);
 
-    if (piece != nullptr) {
-        //todo: handle taking pieces
-    }
+    std::vector<Movement> movements = selected->GetMoves();
+    if (std::find_if(movements.begin(), movements.end(), CanMoveChecker{pos, piece}) == movements.end())
+        return false;
+
+    if (piece != nullptr) 
+      delete piece;
 
     doMove(selected, pos);
     selected = nullptr;
